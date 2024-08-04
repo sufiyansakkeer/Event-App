@@ -1,21 +1,25 @@
 import 'dart:convert';
 
-class EventModel {
-  final List<Data>? data;
+import 'package:hive_flutter/hive_flutter.dart';
 
-  EventModel({
+part 'event_model.g.dart';
+
+class Model {
+  final List<EventModel>? data;
+
+  Model({
     this.data,
   });
 
-  factory EventModel.fromRawJson(String str) =>
-      EventModel.fromJson(json.decode(str));
+  factory Model.fromRawJson(String str) => Model.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
+  factory Model.fromJson(Map<String, dynamic> json) => Model(
         data: json["data"] == null
             ? []
-            : List<Data>.from(json["data"]!.map((x) => Data.fromJson(x))),
+            : List<EventModel>.from(
+                json["data"]!.map((x) => EventModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -25,16 +29,24 @@ class EventModel {
       };
 }
 
-class Data {
-  final DateTime? createdAt;
-  final String? title;
-  final String? description;
-  final String? status;
-  final DateTime? startAt;
-  final int? duration;
+@HiveType(typeId: 1)
+class EventModel {
+  @HiveField(0)
   final String? id;
+  @HiveField(1)
+  final DateTime? createdAt;
+  @HiveField(2)
+  final String? title;
+  @HiveField(3)
+  final String? description;
+  @HiveField(4)
+  final String? status;
+  @HiveField(5)
+  final DateTime? startAt;
+  @HiveField(6)
+  final int? duration;
 
-  Data({
+  EventModel({
     this.createdAt,
     this.title,
     this.description,
@@ -44,11 +56,12 @@ class Data {
     this.id,
   });
 
-  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+  factory EventModel.fromRawJson(String str) =>
+      EventModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
