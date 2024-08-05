@@ -9,9 +9,6 @@ This is a Flutter-based Events App designed using the Clean Architecture princip
   </tr>
 
 </table>
-# Events App
-
-This is a Flutter-based Events App designed using the Clean Architecture principles. The app helps users to browse and manage events effectively. This document will guide you through the setup and structure of the project.
 
 
 ## Architecture
