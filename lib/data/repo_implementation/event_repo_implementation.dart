@@ -28,4 +28,10 @@ class EventRepoImplementation extends EventRepository {
     var res = await _appDatabase.putAllEvents(eventList: eventList);
     return res;
   }
+
+  @override
+  Future<int> clearDB() async {
+    var res = await _appDatabase.clearDB();
+    return res;
+  }
 }

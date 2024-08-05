@@ -12,10 +12,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late CalendarController _calendarController;
   @override
   void initState() {
+    _calendarController = CalendarController();
     context.read<EventsBloc>().add(GetAllEvents());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
   }
 
   @override
@@ -31,27 +39,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 headerStyle: const CalendarHeaderStyle(
                   textAlign: TextAlign.center,
                 ),
-                // resourceViewHeaderBuilder: (context, details) {
-                //   return Row(
-                //     children: [Text(details.resource.displayName)],
-                //   );
-                // },
-                weekNumberStyle: const WeekNumberStyle(),
+                scheduleViewSettings:
+                    const ScheduleViewSettings(hideEmptyScheduleWeek: true),
+                timeRegionBuilder: (context, timeRegionDetails) =>
+                    Text(timeRegionDetails.date.minute.toString()),
+
                 showTodayButton: true,
                 showDatePickerButton: true,
                 allowAppointmentResize: false,
                 showWeekNumber: false,
-                view: CalendarView.month,
+                todayHighlightColor: Colors.blueAccent,
+                view: CalendarView.week,
                 allowViewNavigation: true,
                 viewNavigationMode: ViewNavigationMode.snap,
                 initialDisplayDate: DateTime.now(),
                 allowedViews: const [
-                  CalendarView.month,
                   // CalendarView.week,
-                  // CalendarView.day,
+                  CalendarView.week,
                 ],
                 showCurrentTimeIndicator: true,
                 dataSource: EventSourceModel(state.eventList),
+                monthViewSettings: const MonthViewSettings(
+                  showAgenda: true,
+                  appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                  showTrailingAndLeadingDates: false,
+                ),
+
+                onTap: (calendarTapDetails) {},
               );
             } else {
               return SfCalendar(
@@ -60,24 +74,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 headerStyle: const CalendarHeaderStyle(
                   textAlign: TextAlign.center,
                 ),
-                resourceViewHeaderBuilder: (context, details) {
-                  return Row(
-                    children: [Text(details.resource.displayName)],
-                  );
-                },
-                weekNumberStyle: const WeekNumberStyle(),
+                scheduleViewSettings:
+                    const ScheduleViewSettings(hideEmptyScheduleWeek: true),
+                timeRegionBuilder: (context, timeRegionDetails) =>
+                    Text(timeRegionDetails.date.minute.toString()),
+
                 showTodayButton: true,
                 showDatePickerButton: true,
-                allowAppointmentResize: true,
+                allowAppointmentResize: false,
                 showWeekNumber: false,
+                todayHighlightColor: Colors.blueAccent,
                 view: CalendarView.week,
                 allowViewNavigation: true,
                 viewNavigationMode: ViewNavigationMode.snap,
                 initialDisplayDate: DateTime.now(),
                 allowedViews: const [
+                  // CalendarView.week,
                   CalendarView.week,
-                  CalendarView.day,
                 ],
+                showCurrentTimeIndicator: true,
+                dataSource: EventSourceModel([]),
+                monthViewSettings: const MonthViewSettings(
+                  showAgenda: true,
+                  appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                  showTrailingAndLeadingDates: false,
+                ),
+
+                onTap: (calendarTapDetails) {},
               );
             }
           },

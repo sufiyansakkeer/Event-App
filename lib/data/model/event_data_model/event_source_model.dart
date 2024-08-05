@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:event_app/data/model/event_model/event_model.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class EventSourceModel extends CalendarDataSource {
@@ -17,7 +14,7 @@ class EventSourceModel extends CalendarDataSource {
   //     DateFormat.jm().format(getEvent(index).startAt!);
 
   @override
-  DateTime getStartTime(int index) => getEvent(index).createdAt!;
+  DateTime getStartTime(int index) => getEvent(index).startAt!;
 
   @override
   String? getNotes(int index) => getEvent(index).description;
@@ -31,6 +28,11 @@ class EventSourceModel extends CalendarDataSource {
 
   @override
   DateTime getEndTime(int index) {
-    return getEvent(index).startAt!.add(const Duration(days: 1));
+    return getEvent(index).startAt!.add(const Duration(minutes: 10));
+  }
+
+  @override
+  bool isAllDay(int index) {
+    return true;
   }
 }

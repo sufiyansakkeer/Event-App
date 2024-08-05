@@ -7,4 +7,6 @@ abstract class EventRepository {
   Future<int> saveAllEvents({required List<EventModel> eventList});
   // to get all events that saved in database
   Future<List<EventModel>> getAllSavedEvents();
+
+  Future<int> clearDB();
 }
